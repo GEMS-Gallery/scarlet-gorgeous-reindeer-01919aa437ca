@@ -167,7 +167,7 @@ function App() {
               color="inherit"
               startIcon={<CodeIcon />}
               sx={{ mr: 2 }}
-              href="https://smartcontracts.org/docs/quickstart/quickstart-intro.html"
+              href="https://beta.gems.fr1-dmz1.dfinity.network/"
               target="_blank"
               rel="noopener noreferrer"
             >
