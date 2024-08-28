@@ -72,7 +72,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: 240,
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
-    borderRight: '1px solid #e0e0e0',
+    borderRight: 'none',
   },
 }));
 

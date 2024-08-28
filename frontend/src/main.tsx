@@ -71,7 +71,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           boxShadow: 'none',
-          borderBottom: '1px solid #e0e0e0',
+          borderBottom: '1px solid #f0f0f0',
         },
       },
     },
