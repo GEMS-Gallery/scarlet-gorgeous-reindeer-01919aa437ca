@@ -38,16 +38,16 @@ const theme = createTheme({
     body2: {
       fontSize: '0.875rem',
     },
+    button: {
+      textTransform: 'none',
+    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none',
-          boxShadow: 'none',
-          '&:hover': {
-            boxShadow: 'none',
-          },
+          borderRadius: '8px',
+          padding: '8px 16px',
         },
       },
     },

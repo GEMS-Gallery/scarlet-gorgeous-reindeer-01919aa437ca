@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, AppBar, Toolbar, Tooltip } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, AppBar, Toolbar, Tooltip, Button } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import WebIcon from '@mui/icons-material/Web';
 import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import CodeIcon from '@mui/icons-material/Code';
+import SchoolIcon from '@mui/icons-material/School';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 interface Tile {
@@ -168,10 +170,31 @@ function App() {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed" color="default" elevation={0} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, borderBottom: '1px solid #E5E7EB' }}>
-        <Toolbar>
+        <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography variant="h6" noWrap component="div" color="text.primary">
             Internet Computer Screenshots
           </Typography>
+          <Box>
+            <Button
+              color="primary"
+              startIcon={<CodeIcon />}
+              sx={{ mr: 2 }}
+              href="https://smartcontracts.org/docs/quickstart/quickstart-intro.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Start Building
+            </Button>
+            <Button
+              color="primary"
+              startIcon={<SchoolIcon />}
+              href="https://internetcomputer.org/docs/current/developer-docs/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
