@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, Link as MuiLink } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, Link as MuiLink, AppBar, Toolbar } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LaunchIcon from '@mui/icons-material/Launch';
-import { Routes, Route, Link, useParams } from 'react-router-dom';
+import WebIcon from '@mui/icons-material/Web';
+import BuildIcon from '@mui/icons-material/Build';
+import PeopleIcon from '@mui/icons-material/People';
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 
 interface Tile {
   id: number;
@@ -52,14 +56,27 @@ const tiles: Tile[] = [
 
 const categories = ['All', ...new Set(tiles.map(tile => tile.category))];
 
+function getCategoryIcon(category: string) {
+  switch (category) {
+    case 'Websites':
+      return <WebIcon />;
+    case 'Tools':
+      return <BuildIcon />;
+    case 'Community':
+      return <PeopleIcon />;
+    default:
+      return <AllInclusiveIcon />;
+  }
+}
+
 function TileGrid({ category }: { category: string }) {
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3}>
       {filteredTiles.map((tile) => (
         <Grid item xs={12} sm={6} md={4} key={tile.id}>
-          <Card>
+          <Card elevation={3}>
             <CardMedia
               component="img"
               image={tile.imageUrl}
@@ -71,10 +88,10 @@ function TileGrid({ category }: { category: string }) {
               }}
             />
             <CardContent>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 {tile.description}
               </Typography>
-              <Box display="flex" justifyContent="space-between" alignItems="center">
+              <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
                 <MuiLink 
                   href={tile.websiteUrl} 
                   target="_blank" 
@@ -89,6 +106,7 @@ function TileGrid({ category }: { category: string }) {
                   href="https://github.com/dfinity" 
                   target="_blank" 
                   rel="noopener noreferrer"
+                  color="primary"
                 >
                   <GitHubIcon />
                 </IconButton>
@@ -107,13 +125,25 @@ function CategoryPage() {
 }
 
 function App() {
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const drawer = (
     <div>
+      <Toolbar />
       <List>
         {categories.map((category) => (
-          <ListItem button key={category} component={Link} to={`/category/${category}`}>
+          <ListItem 
+            button 
+            key={category} 
+            onClick={() => {
+              navigate(`/category/${category}`);
+              setMobileOpen(false);
+            }}
+          >
+            <ListItemIcon sx={{ color: 'inherit' }}>
+              {getCategoryIcon(category)}
+            </ListItemIcon>
             <ListItemText primary={category} />
           </ListItem>
         ))}
@@ -123,6 +153,13 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <Toolbar>
+          <Typography variant="h6" noWrap component="div">
+            Internet Computer Screenshots
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <Drawer
         variant="permanent"
         sx={{
@@ -133,10 +170,7 @@ function App() {
       >
         {drawer}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Typography variant="h4" component="h1" gutterBottom>
-          Internet Computer Screenshots
-        </Typography>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
         <Routes>
           <Route path="/" element={<CategoryPage />} />
           <Route path="/category/:category" element={<CategoryPage />} />
