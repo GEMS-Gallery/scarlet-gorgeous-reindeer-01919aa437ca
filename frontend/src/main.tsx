@@ -12,19 +12,25 @@ import '@fontsource/roboto/700.css';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#29abe2',
+      main: '#000000',
     },
     secondary: {
-      main: '#0b3a53',
+      main: '#6B7280',
     },
     background: {
-      default: '#f5f5f5',
+      default: '#ffffff',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#000000',
+      secondary: '#6B7280',
     },
   },
   typography: {
     fontFamily: 'Roboto, Arial, sans-serif',
     h4: {
       fontWeight: 700,
+      fontSize: '1.75rem',
     },
     body1: {
       fontSize: '1rem',
@@ -38,14 +44,28 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: 'none',
+          },
         },
       },
     },
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          backgroundColor: '#0b3a53',
-          color: '#ffffff',
+          backgroundColor: '#ffffff',
+          borderRight: '1px solid #E5E7EB',
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+          '&:hover': {
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          },
         },
       },
     },

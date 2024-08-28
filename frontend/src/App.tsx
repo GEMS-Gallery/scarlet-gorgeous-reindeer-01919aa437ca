@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, Link as MuiLink, AppBar, Toolbar } from '@mui/material';
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LaunchIcon from '@mui/icons-material/Launch';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, Button, AppBar, Toolbar } from '@mui/material';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import WebIcon from '@mui/icons-material/Web';
 import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
-import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 
 interface Tile {
   id: number;
@@ -76,7 +75,7 @@ function TileGrid({ category }: { category: string }) {
     <Grid container spacing={3}>
       {filteredTiles.map((tile) => (
         <Grid item xs={12} sm={6} md={4} key={tile.id}>
-          <Card elevation={3}>
+          <Card>
             <CardMedia
               component="img"
               image={tile.imageUrl}
@@ -91,26 +90,21 @@ function TileGrid({ category }: { category: string }) {
               <Typography variant="h6" gutterBottom>
                 {tile.description}
               </Typography>
-              <Box display="flex" justifyContent="space-between" alignItems="center" mt={2}>
-                <MuiLink 
-                  href={tile.websiteUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  sx={{ display: 'flex', alignItems: 'center' }}
-                >
-                  Visit Website
-                  <LaunchIcon fontSize="small" sx={{ ml: 0.5 }} />
-                </MuiLink>
-                <IconButton 
-                  aria-label="github" 
-                  href="https://github.com/dfinity" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  color="primary"
-                >
-                  <GitHubIcon />
-                </IconButton>
-              </Box>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
+                {tile.category}
+              </Typography>
+              <Button 
+                variant="outlined" 
+                color="primary"
+                href={tile.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                startIcon={<OpenInNewIcon />}
+                fullWidth
+                sx={{ mt: 2 }}
+              >
+                Visit Website
+              </Button>
             </CardContent>
           </Card>
         </Grid>
@@ -141,7 +135,7 @@ function App() {
               setMobileOpen(false);
             }}
           >
-            <ListItemIcon sx={{ color: 'inherit' }}>
+            <ListItemIcon>
               {getCategoryIcon(category)}
             </ListItemIcon>
             <ListItemText primary={category} />
@@ -153,9 +147,9 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" color="default" elevation={0} sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, borderBottom: '1px solid #E5E7EB' }}>
         <Toolbar>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" color="text.primary">
             Internet Computer Screenshots
           </Typography>
         </Toolbar>
