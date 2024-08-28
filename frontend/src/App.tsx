@@ -73,6 +73,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
     borderRight: 'none',
+    marginTop: '64px',
   },
 }));
 
@@ -111,7 +112,6 @@ function App() {
 
   const drawer = (
     <div>
-      <Toolbar />
       <List>
         {categories.map((category) => (
           <StyledListItem
@@ -131,7 +131,7 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
-      <AppBar position="fixed" color="inherit" elevation={0}>
+      <AppBar position="fixed" color="inherit" elevation={0} sx={{ width: '100%' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
             IC Screenshots
@@ -164,7 +164,7 @@ function App() {
       >
         {drawer}
       </StyledDrawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8, ml: '240px' }}>
         <Container maxWidth="lg">
           <Routes>
             <Route path="/" element={<CategoryPage />} />

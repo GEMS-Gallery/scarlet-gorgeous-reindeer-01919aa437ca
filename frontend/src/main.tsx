@@ -72,6 +72,7 @@ const theme = createTheme({
         root: {
           boxShadow: 'none',
           borderBottom: '1px solid #f0f0f0',
+          zIndex: 1300,
         },
       },
     },
