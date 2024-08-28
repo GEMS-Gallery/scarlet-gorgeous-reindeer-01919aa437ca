@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Button, Container, CircularProgress, useTheme, useMediaQuery, IconButton } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Button, Container, CircularProgress, useTheme, useMediaQuery, IconButton, ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CodeIcon from '@mui/icons-material/Code';
 import SchoolIcon from '@mui/icons-material/School';
@@ -8,6 +8,8 @@ import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import MenuIcon from '@mui/icons-material/Menu';
+import GridViewIcon from '@mui/icons-material/GridView';
+import ViewListIcon from '@mui/icons-material/ViewList';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -105,10 +107,35 @@ function getCategoryIcon(category: string) {
 
 function CategoryPage() {
   const { category = 'All' } = useParams<{ category: string }>();
+  const [viewType, setViewType] = useState<'grid' | 'list'>('grid');
+
+  const handleViewChange = (event: React.MouseEvent<HTMLElement>, newView: 'grid' | 'list' | null) => {
+    if (newView !== null) {
+      setViewType(newView);
+    }
+  };
+
   return (
-    <Suspense fallback={<CircularProgress />}>
-      <LazyTileGrid category={category} tiles={tiles} />
-    </Suspense>
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+        <ToggleButtonGroup
+          value={viewType}
+          exclusive
+          onChange={handleViewChange}
+          aria-label="view type"
+        >
+          <ToggleButton value="grid" aria-label="grid view">
+            <GridViewIcon />
+          </ToggleButton>
+          <ToggleButton value="list" aria-label="list view">
+            <ViewListIcon />
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+      <Suspense fallback={<CircularProgress />}>
+        <LazyTileGrid category={category} tiles={tiles} viewType={viewType} />
+      </Suspense>
+    </>
   );
 }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, Skeleton } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, Skeleton, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
@@ -15,9 +15,10 @@ interface Tile {
 interface TileGridProps {
   category: string;
   tiles: Tile[];
+  viewType: 'grid' | 'list';
 }
 
-const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
+const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
 
@@ -29,7 +30,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
     setLoadedImages(prev => [...prev, id]);
   };
 
-  return (
+  const renderGridView = () => (
     <Grid container spacing={2}>
       {filteredTiles.map((tile) => (
         <Grid item xs={12} sm={6} md={4} lg={3} key={tile.id}>
@@ -106,6 +107,67 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
       ))}
     </Grid>
   );
+
+  const renderListView = () => (
+    <List>
+      {filteredTiles.map((tile) => (
+        <ListItem
+          key={tile.id}
+          alignItems="flex-start"
+          secondaryAction={
+            <Box>
+              <IconButton
+                aria-label="visit website"
+                href={tile.websiteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                size="small"
+              >
+                <OpenInNewIcon />
+              </IconButton>
+              {tile.githubUrl && (
+                <IconButton
+                  aria-label="view on github"
+                  href={tile.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="small"
+                >
+                  <GitHubIcon />
+                </IconButton>
+              )}
+            </Box>
+          }
+        >
+          <ListItemAvatar>
+            <Avatar
+              variant="rounded"
+              src={tile.imageUrl}
+              alt={tile.description}
+              sx={{ width: 80, height: 80 }}
+            />
+          </ListItemAvatar>
+          <ListItemText
+            primary={tile.description}
+            secondary={
+              <React.Fragment>
+                <Typography
+                  sx={{ display: 'inline' }}
+                  component="span"
+                  variant="body2"
+                  color="text.primary"
+                >
+                  {tile.category}
+                </Typography>
+              </React.Fragment>
+            }
+          />
+        </ListItem>
+      ))}
+    </List>
+  );
+
+  return viewType === 'grid' ? renderGridView() : renderListView();
 };
 
 export default React.memo(TileGrid);
