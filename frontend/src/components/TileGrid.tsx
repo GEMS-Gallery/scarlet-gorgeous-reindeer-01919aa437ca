@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, CircularProgress, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, CircularProgress, List, ListItem, ListItemText, ListItemAvatar, Avatar, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import CommentIcon from '@mui/icons-material/Comment';
 
 interface Tile {
   id: number;
@@ -12,6 +13,13 @@ interface Tile {
   githubUrl?: string;
 }
 
+interface Comment {
+  id: number;
+  text: string;
+  author: string;
+  timestamp: Date;
+}
+
 interface TileGridProps {
   category: string;
   tiles: Tile[];
@@ -20,6 +28,9 @@ interface TileGridProps {
 
 const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
+  const [comments, setComments] = useState<{ [key: number]: Comment[] }>({});
+  const [openCommentModal, setOpenCommentModal] = useState<number | null>(null);
+  const [newComment, setNewComment] = useState('');
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
 
   useEffect(() => {
@@ -29,6 +40,63 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
   const handleImageLoad = (id: number) => {
     setLoadedImages(prev => [...prev, id]);
   };
+
+  const handleOpenCommentModal = (tileId: number) => {
+    setOpenCommentModal(tileId);
+  };
+
+  const handleCloseCommentModal = () => {
+    setOpenCommentModal(null);
+    setNewComment('');
+  };
+
+  const handleAddComment = (tileId: number) => {
+    if (newComment.trim()) {
+      const newCommentObj: Comment = {
+        id: Date.now(),
+        text: newComment,
+        author: 'Anonymous', // Replace with actual user name when authentication is implemented
+        timestamp: new Date(),
+      };
+      setComments(prev => ({
+        ...prev,
+        [tileId]: [...(prev[tileId] || []), newCommentObj],
+      }));
+      setNewComment('');
+    }
+  };
+
+  const renderCommentModal = (tileId: number) => (
+    <Dialog open={openCommentModal === tileId} onClose={handleCloseCommentModal} maxWidth="sm" fullWidth>
+      <DialogTitle>Comments</DialogTitle>
+      <DialogContent>
+        <List>
+          {comments[tileId]?.map((comment) => (
+            <ListItem key={comment.id}>
+              <ListItemText
+                primary={comment.text}
+                secondary={`${comment.author} - ${comment.timestamp.toLocaleString()}`}
+              />
+            </ListItem>
+          ))}
+        </List>
+        <TextField
+          fullWidth
+          variant="outlined"
+          label="Add a comment"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          margin="normal"
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseCommentModal}>Cancel</Button>
+        <Button onClick={() => handleAddComment(tileId)} color="primary">
+          Add Comment
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 
   const renderGridView = () => (
     <Grid container spacing={2}>
@@ -78,6 +146,15 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
                 {tile.category}
               </Typography>
               <Box display="flex" justifyContent="flex-end" mt={2}>
+                <Tooltip title="Comments">
+                  <IconButton
+                    aria-label="comments"
+                    onClick={() => handleOpenCommentModal(tile.id)}
+                    size="small"
+                  >
+                    <CommentIcon />
+                  </IconButton>
+                </Tooltip>
                 <Tooltip title="Visit Website">
                   <IconButton
                     aria-label="visit website"
@@ -105,6 +182,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
               </Box>
             </CardContent>
           </Card>
+          {renderCommentModal(tile.id)}
         </Grid>
       ))}
     </Grid>
@@ -118,6 +196,13 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
           alignItems="flex-start"
           secondaryAction={
             <Box>
+              <IconButton
+                aria-label="comments"
+                onClick={() => handleOpenCommentModal(tile.id)}
+                size="small"
+              >
+                <CommentIcon />
+              </IconButton>
               <IconButton
                 aria-label="visit website"
                 href={tile.websiteUrl}
@@ -190,6 +275,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
               </React.Fragment>
             }
           />
+          {renderCommentModal(tile.id)}
         </ListItem>
       ))}
     </List>
