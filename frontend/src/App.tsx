@@ -1,17 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Card, CardContent, Typography, CircularProgress } from '@mui/material';
-import { styled } from '@mui/system';
-
-const StyledCard = styled(Card)(({ theme }) => ({
-  maxWidth: 800,
-  margin: '2rem auto',
-  padding: theme.spacing(2),
-}));
-
-const StyledImage = styled('img')({
-  width: '100%',
-  height: 'auto',
-});
+import { Box, Grid, Card, CardMedia, CardContent, Typography, IconButton, CircularProgress } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const SCREENSHOT_URL = "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdfinity.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load";
 
@@ -34,24 +23,37 @@ function App() {
       <Typography variant="h4" component="h1" align="center" gutterBottom>
         Internet Computer Screenshot
       </Typography>
-      <StyledCard>
-        <CardContent>
-          {loading ? (
-            <Box display="flex" justifyContent="center">
-              <CircularProgress />
-            </Box>
-          ) : error ? (
-            <Typography color="error">{error}</Typography>
-          ) : (
-            <>
-              <StyledImage src={SCREENSHOT_URL} alt="Internet Computer Screenshot" />
-              <Typography variant="body1" sx={{ mt: 2 }}>
+      <Grid container justifyContent="center">
+        <Grid item xs={12} sm={8} md={6} lg={4}>
+          <Card>
+            {loading ? (
+              <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
+                <CircularProgress />
+              </Box>
+            ) : error ? (
+              <Box p={2}>
+                <Typography color="error">{error}</Typography>
+              </Box>
+            ) : (
+              <CardMedia
+                component="img"
+                image={SCREENSHOT_URL}
+                alt="Internet Computer Screenshot"
+              />
+            )}
+            <CardContent>
+              <Typography variant="body2" gutterBottom>
                 This screenshot showcases the Internet Computer website, demonstrating the capabilities of the IC platform.
               </Typography>
-            </>
-          )}
-        </CardContent>
-      </StyledCard>
+              <Box display="flex" justifyContent="flex-end">
+                <IconButton aria-label="github" href="https://github.com/dfinity" target="_blank" rel="noopener noreferrer">
+                  <GitHubIcon />
+                </IconButton>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
