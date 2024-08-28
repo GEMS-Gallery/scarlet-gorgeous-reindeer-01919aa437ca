@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, Skeleton, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
+import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, CircularProgress, List, ListItem, ListItemText, ListItemAvatar, Avatar } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
@@ -37,19 +37,21 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: 300 }}>
             <Box sx={{ position: 'relative', paddingTop: '56.25%', overflow: 'hidden' }}>
               {!loadedImages.includes(tile.id) && (
-                <Skeleton
-                  variant="rectangular"
-                  width="100%"
-                  height="100%"
-                  animation="wave"
+                <Box
                   sx={{
                     position: 'absolute',
                     top: 0,
                     left: 0,
                     right: 0,
                     bottom: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
                   }}
-                />
+                >
+                  <CircularProgress />
+                </Box>
               )}
               <CardMedia
                 component="img"
@@ -140,12 +142,38 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
           }
         >
           <ListItemAvatar>
-            <Avatar
-              variant="rounded"
-              src={tile.imageUrl}
-              alt={tile.description}
-              sx={{ width: 80, height: 80 }}
-            />
+            <Box sx={{ position: 'relative', width: 80, height: 80 }}>
+              {!loadedImages.includes(tile.id) && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                  }}
+                >
+                  <CircularProgress size={24} />
+                </Box>
+              )}
+              <Avatar
+                variant="rounded"
+                src={tile.imageUrl}
+                alt={tile.description}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  display: loadedImages.includes(tile.id) ? 'block' : 'none',
+                }}
+                imgProps={{
+                  onLoad: () => handleImageLoad(tile.id),
+                }}
+              />
+            </Box>
           </ListItemAvatar>
           <ListItemText
             primary={tile.description}
