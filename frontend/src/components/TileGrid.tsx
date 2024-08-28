@@ -1,5 +1,5 @@
-import React from 'react';
-import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Card, CardMedia, CardContent, Typography, Box, IconButton, Tooltip, CircularProgress } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
@@ -18,7 +18,32 @@ interface TileGridProps {
 }
 
 const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
+  const [loading, setLoading] = useState(true);
+  const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
+
+  useEffect(() => {
+    setLoading(true);
+    setLoadedImages([]);
+  }, [category]);
+
+  useEffect(() => {
+    if (loadedImages.length === filteredTiles.length) {
+      setLoading(false);
+    }
+  }, [loadedImages, filteredTiles]);
+
+  const handleImageLoad = (id: number) => {
+    setLoadedImages(prev => [...prev, id]);
+  };
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <Grid container spacing={2}>
@@ -34,6 +59,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
                 objectFit: 'cover',
                 objectPosition: 'top',
               }}
+              onLoad={() => handleImageLoad(tile.id)}
             />
             <CardContent sx={{ flexGrow: 1, p: 2 }}>
               <Typography variant="subtitle1" gutterBottom noWrap>
