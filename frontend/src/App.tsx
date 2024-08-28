@@ -1,5 +1,5 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Button, Container, CircularProgress } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Button, Container, CircularProgress, useTheme, useMediaQuery } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CodeIcon from '@mui/icons-material/Code';
 import SchoolIcon from '@mui/icons-material/School';
@@ -7,6 +7,7 @@ import WebIcon from '@mui/icons-material/Web';
 import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import MenuIcon from '@mui/icons-material/Menu';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -65,15 +66,19 @@ const tiles: Tile[] = [
 
 const categories = ['All', ...new Set(tiles.map(tile => tile.category))];
 
+const drawerWidth = 240;
+
 const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  width: 240,
+  width: drawerWidth,
   flexShrink: 0,
   '& .MuiDrawer-paper': {
-    width: 240,
+    width: drawerWidth,
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
     borderRight: 'none',
-    marginTop: '64px',
+    [theme.breakpoints.up('sm')]: {
+      marginTop: '64px',
+    },
   },
 }));
 
@@ -109,6 +114,13 @@ function CategoryPage() {
 
 function App() {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
   const drawer = (
     <div>
@@ -117,7 +129,10 @@ function App() {
           <StyledListItem
             button
             key={category}
-            onClick={() => navigate(`/category/${category}`)}
+            onClick={() => {
+              navigate(`/category/${category}`);
+              if (isMobile) setMobileOpen(false);
+            }}
           >
             <ListItemIcon>
               {getCategoryIcon(category)}
@@ -133,6 +148,17 @@ function App() {
     <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppBar position="fixed" color="inherit" elevation={0} sx={{ width: '100%' }}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
+          {isMobile && (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2 }}
+            >
+              <MenuIcon />
+            </IconButton>
+          )}
           <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
             IC Screenshots
           </Typography>
@@ -159,13 +185,32 @@ function App() {
           </Box>
         </Toolbar>
       </AppBar>
-      <StyledDrawer
-        variant="permanent"
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       >
-        {drawer}
-      </StyledDrawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 8, ml: '240px' }}>
-        <Container maxWidth="lg">
+        {isMobile ? (
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{ keepMounted: true }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+        ) : (
+          <StyledDrawer variant="permanent" open>
+            {drawer}
+          </StyledDrawer>
+        )}
+      </Box>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+        <Toolbar />
+        <Container maxWidth="xl">
           <Routes>
             <Route path="/" element={<CategoryPage />} />
             <Route path="/category/:category" element={

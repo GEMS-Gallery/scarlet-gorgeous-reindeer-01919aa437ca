@@ -23,7 +23,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
   return (
     <Grid container spacing={2}>
       {filteredTiles.map((tile) => (
-        <Grid item xs={12} sm={6} md={4} key={tile.id}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={tile.id}>
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <CardMedia
               component="img"
