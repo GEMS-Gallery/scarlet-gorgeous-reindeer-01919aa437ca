@@ -4,42 +4,45 @@ import App from './App';
 import './index.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#000000',
+      main: '#3B82F6',
     },
     secondary: {
-      main: '#6B7280',
+      main: '#10B981',
     },
     background: {
-      default: '#ffffff',
-      paper: '#ffffff',
+      default: '#F3F4F6',
+      paper: '#FFFFFF',
     },
     text: {
-      primary: '#000000',
+      primary: '#1F2937',
       secondary: '#6B7280',
     },
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-    h4: {
+    fontFamily: 'Inter, sans-serif',
+    h1: {
+      fontSize: '2.5rem',
       fontWeight: 700,
+    },
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 600,
+    },
+    h3: {
       fontSize: '1.75rem',
+      fontWeight: 600,
     },
     body1: {
       fontSize: '1rem',
-    },
-    body2: {
-      fontSize: '0.875rem',
+      lineHeight: 1.5,
     },
     button: {
       textTransform: 'none',
+      fontWeight: 500,
     },
   },
   components: {
@@ -48,24 +51,32 @@ const theme = createTheme({
         root: {
           borderRadius: '8px',
           padding: '8px 16px',
-        },
-      },
-    },
-    MuiDrawer: {
-      styleOverrides: {
-        paper: {
-          backgroundColor: '#ffffff',
-          borderRight: '1px solid #E5E7EB',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          },
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+          borderRadius: '12px',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          transition: 'all 0.3s ease-in-out',
           '&:hover': {
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
           },
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          borderBottom: '1px solid #E5E7EB',
         },
       },
     },
