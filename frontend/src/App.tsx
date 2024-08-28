@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, Button, AppBar, Toolbar } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, AppBar, Toolbar, Tooltip } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import GitHubIcon from '@mui/icons-material/GitHub';
 import WebIcon from '@mui/icons-material/Web';
 import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
@@ -13,6 +14,7 @@ interface Tile {
   description: string;
   category: string;
   websiteUrl: string;
+  githubUrl?: string;
 }
 
 const tiles: Tile[] = [
@@ -21,14 +23,16 @@ const tiles: Tile[] = [
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdfinity.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "DFINITY Foundation website",
     category: "Websites",
-    websiteUrl: "https://dfinity.org/"
+    websiteUrl: "https://dfinity.org/",
+    githubUrl: "https://github.com/dfinity"
   },
   {
     id: 2,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdashboard.internetcomputer.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "Internet Computer Dashboard",
     category: "Tools",
-    websiteUrl: "https://dashboard.internetcomputer.org/"
+    websiteUrl: "https://dashboard.internetcomputer.org/",
+    githubUrl: "https://github.com/dfinity/ic-dashboard"
   },
   {
     id: 3,
@@ -42,14 +46,16 @@ const tiles: Tile[] = [
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fidentity.ic0.app%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "Internet Identity",
     category: "Tools",
-    websiteUrl: "https://identity.ic0.app/"
+    websiteUrl: "https://identity.ic0.app/",
+    githubUrl: "https://github.com/dfinity/internet-identity"
   },
   {
     id: 5,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fnns.ic0.app%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "NNS App",
     category: "Tools",
-    websiteUrl: "https://nns.ic0.app/"
+    websiteUrl: "https://nns.ic0.app/",
+    githubUrl: "https://github.com/dfinity/nns-dapp"
   }
 ];
 
@@ -93,18 +99,32 @@ function TileGrid({ category }: { category: string }) {
               <Typography variant="body2" color="text.secondary" gutterBottom>
                 {tile.category}
               </Typography>
-              <Button 
-                variant="outlined" 
-                color="primary"
-                href={tile.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                startIcon={<OpenInNewIcon />}
-                fullWidth
-                sx={{ mt: 2 }}
-              >
-                Visit Website
-              </Button>
+              <Box display="flex" justifyContent="flex-end" mt={2}>
+                <Tooltip title="Visit Website">
+                  <IconButton
+                    aria-label="visit website"
+                    href={tile.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="small"
+                  >
+                    <OpenInNewIcon />
+                  </IconButton>
+                </Tooltip>
+                {tile.githubUrl && (
+                  <Tooltip title="View on GitHub">
+                    <IconButton
+                      aria-label="view on github"
+                      href={tile.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      size="small"
+                    >
+                      <GitHubIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
+              </Box>
             </CardContent>
           </Card>
         </Grid>
