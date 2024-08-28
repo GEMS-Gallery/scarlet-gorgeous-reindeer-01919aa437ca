@@ -160,7 +160,7 @@ function App() {
             </IconButton>
           )}
           <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
-            IC Screenshots
+            GEM's Showcase
           </Typography>
           <Box>
             <Button
