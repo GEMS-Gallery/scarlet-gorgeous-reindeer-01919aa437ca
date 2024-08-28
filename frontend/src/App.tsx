@@ -27,11 +27,11 @@ function App() {
         <Grid item xs={12} sm={8} md={6} lg={4}>
           <Card>
             {loading ? (
-              <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
+              <Box display="flex" justifyContent="center" alignItems="center" height={200}>
                 <CircularProgress />
               </Box>
             ) : error ? (
-              <Box p={2}>
+              <Box p={2} height={200} display="flex" alignItems="center" justifyContent="center">
                 <Typography color="error">{error}</Typography>
               </Box>
             ) : (
@@ -39,6 +39,11 @@ function App() {
                 component="img"
                 image={SCREENSHOT_URL}
                 alt="Internet Computer Screenshot"
+                sx={{
+                  height: 200,
+                  objectFit: 'cover',
+                  objectPosition: 'top',
+                }}
               />
             )}
             <CardContent>
