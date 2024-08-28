@@ -21,35 +21,35 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {filteredTiles.map((tile) => (
-        <Grid item xs={12} sm={6} md={6} lg={4} key={tile.id}>
-          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={tile.id}>
+          <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: 300 }}>
             <CardMedia
               component="img"
               image={tile.imageUrl}
               alt={tile.description}
               sx={{
-                height: 250,
+                height: 160,
                 objectFit: 'cover',
                 objectPosition: 'top',
               }}
             />
-            <CardContent sx={{ flexGrow: 1, p: 3 }}>
-              <Typography variant="h6" gutterBottom>
+            <CardContent sx={{ flexGrow: 1, p: 2 }}>
+              <Typography variant="subtitle1" gutterBottom noWrap>
                 {tile.description}
               </Typography>
-              <Typography variant="body1" color="text.secondary" gutterBottom>
+              <Typography variant="body2" color="text.secondary" gutterBottom>
                 {tile.category}
               </Typography>
-              <Box display="flex" justifyContent="flex-end" mt={3}>
+              <Box display="flex" justifyContent="flex-end" mt={2}>
                 <Tooltip title="Visit Website">
                   <IconButton
                     aria-label="visit website"
                     href={tile.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    size="large"
+                    size="small"
                   >
                     <OpenInNewIcon />
                   </IconButton>
@@ -61,7 +61,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
                       href={tile.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      size="large"
+                      size="small"
                     >
                       <GitHubIcon />
                     </IconButton>
