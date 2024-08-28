@@ -3,7 +3,7 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F3F4F6;
+  background-color: #ffffff;
 }
 
 code {
@@ -16,12 +16,12 @@ code {
 }
 .fade-enter-active {
   opacity: 1;
-  transition: opacity 300ms ease-in;
+  transition: opacity 200ms ease-in;
 }
 .fade-exit {
   opacity: 1;
 }
 .fade-exit-active {
   opacity: 0;
-  transition: opacity 300ms ease-in;
+  transition: opacity 200ms ease-in;
 }

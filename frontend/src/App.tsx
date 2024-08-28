@@ -1,14 +1,12 @@
 import React, { useState, lazy, Suspense } from 'react';
-import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, AppBar, Toolbar, Tooltip, Button, Container, CircularProgress } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemIcon, ListItemText, AppBar, Toolbar, Typography, Button, Container, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import CodeIcon from '@mui/icons-material/Code';
+import SchoolIcon from '@mui/icons-material/School';
 import WebIcon from '@mui/icons-material/Web';
 import BuildIcon from '@mui/icons-material/Build';
 import PeopleIcon from '@mui/icons-material/People';
 import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
-import CodeIcon from '@mui/icons-material/Code';
-import SchoolIcon from '@mui/icons-material/School';
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
@@ -74,15 +72,15 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     width: 240,
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.default,
-    borderRight: 'none',
+    borderRight: '1px solid #e0e0e0',
   },
 }));
 
 const StyledListItem = styled(ListItem)(({ theme }) => ({
-  borderRadius: '8px',
-  margin: '8px 16px',
+  margin: '4px 8px',
+  borderRadius: '4px',
   '&:hover': {
-    backgroundColor: theme.palette.action.hover,
+    backgroundColor: '#f5f5f5',
   },
 }));
 
@@ -110,7 +108,6 @@ function CategoryPage() {
 
 function App() {
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const drawer = (
     <div>
@@ -120,10 +117,7 @@ function App() {
           <StyledListItem
             button
             key={category}
-            onClick={() => {
-              navigate(`/category/${category}`);
-              setMobileOpen(false);
-            }}
+            onClick={() => navigate(`/category/${category}`)}
           >
             <ListItemIcon>
               {getCategoryIcon(category)}
@@ -139,12 +133,12 @@ function App() {
     <Box sx={{ display: 'flex', bgcolor: 'background.default', minHeight: '100vh' }}>
       <AppBar position="fixed" color="inherit" elevation={0}>
         <Toolbar sx={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" noWrap component="div" color="text.primary" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" noWrap component="div" sx={{ fontWeight: 600 }}>
             IC Screenshots
           </Typography>
           <Box>
             <Button
-              color="primary"
+              color="inherit"
               startIcon={<CodeIcon />}
               sx={{ mr: 2 }}
               href="https://smartcontracts.org/docs/quickstart/quickstart-intro.html"
@@ -154,7 +148,7 @@ function App() {
               Start Building
             </Button>
             <Button
-              color="secondary"
+              color="inherit"
               startIcon={<SchoolIcon />}
               href="https://internetcomputer.org/docs/current/developer-docs/"
               target="_blank"
@@ -176,7 +170,7 @@ function App() {
             <Route path="/" element={<CategoryPage />} />
             <Route path="/category/:category" element={
               <TransitionGroup>
-                <CSSTransition key={location.pathname} classNames="fade" timeout={300}>
+                <CSSTransition key={location.pathname} classNames="fade" timeout={200}>
                   <CategoryPage />
                 </CSSTransition>
               </TransitionGroup>

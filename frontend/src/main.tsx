@@ -8,32 +8,32 @@ import { BrowserRouter } from 'react-router-dom';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#3B82F6',
+      main: '#000000',
     },
     secondary: {
-      main: '#10B981',
+      main: '#666666',
     },
     background: {
-      default: '#F3F4F6',
-      paper: '#FFFFFF',
+      default: '#ffffff',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#1F2937',
-      secondary: '#6B7280',
+      primary: '#000000',
+      secondary: '#666666',
     },
   },
   typography: {
     fontFamily: 'Inter, sans-serif',
     h1: {
-      fontSize: '2.5rem',
-      fontWeight: 700,
-    },
-    h2: {
       fontSize: '2rem',
       fontWeight: 600,
     },
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 600,
+    },
     h3: {
-      fontSize: '1.75rem',
+      fontSize: '1.25rem',
       fontWeight: 600,
     },
     body1: {
@@ -49,12 +49,11 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '8px',
+          borderRadius: '4px',
           padding: '8px 16px',
-          transition: 'all 0.2s ease-in-out',
+          boxShadow: 'none',
           '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+            boxShadow: 'none',
           },
         },
       },
@@ -62,13 +61,9 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-          },
+          boxShadow: 'none',
+          border: '1px solid #e0e0e0',
+          borderRadius: '4px',
         },
       },
     },
@@ -76,7 +71,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           boxShadow: 'none',
-          borderBottom: '1px solid #E5E7EB',
+          borderBottom: '1px solid #e0e0e0',
         },
       },
     },

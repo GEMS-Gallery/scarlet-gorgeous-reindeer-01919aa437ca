@@ -21,7 +21,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
   const filteredTiles = category === 'All' ? tiles : tiles.filter(tile => tile.category === category);
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2}>
       {filteredTiles.map((tile) => (
         <Grid item xs={12} sm={6} md={4} key={tile.id}>
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -35,8 +35,8 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles }) => {
                 objectPosition: 'top',
               }}
             />
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Typography variant="h6" gutterBottom>
+            <CardContent sx={{ flexGrow: 1, p: 2 }}>
+              <Typography variant="subtitle1" gutterBottom>
                 {tile.description}
               </Typography>
               <Typography variant="body2" color="text.secondary" gutterBottom>
