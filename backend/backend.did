@@ -1,3 +1,2 @@
 service : {
-  getScreenshotUrl: () -> (text) query;
 }

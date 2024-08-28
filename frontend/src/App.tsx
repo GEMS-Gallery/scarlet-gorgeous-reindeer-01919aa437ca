@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { backend } from 'declarations/backend';
 import { Box, Card, CardContent, Typography, CircularProgress } from '@mui/material';
 import { styled } from '@mui/system';
 
@@ -14,23 +13,20 @@ const StyledImage = styled('img')({
   height: 'auto',
 });
 
+const SCREENSHOT_URL = "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdfinity.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load";
+
 function App() {
-  const [screenshotUrl, setScreenshotUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchScreenshotUrl = async () => {
-      try {
-        const url = await backend.getScreenshotUrl();
-        setScreenshotUrl(url);
-      } catch (error) {
-        console.error('Error fetching screenshot URL:', error);
-      } finally {
-        setLoading(false);
-      }
+    const img = new Image();
+    img.onload = () => setLoading(false);
+    img.onerror = () => {
+      setLoading(false);
+      setError('Failed to load the screenshot. Please try again later.');
     };
-
-    fetchScreenshotUrl();
+    img.src = SCREENSHOT_URL;
   }, []);
 
   return (
@@ -44,17 +40,15 @@ function App() {
             <Box display="flex" justifyContent="center">
               <CircularProgress />
             </Box>
-          ) : screenshotUrl ? (
+          ) : error ? (
+            <Typography color="error">{error}</Typography>
+          ) : (
             <>
-              <StyledImage src={screenshotUrl} alt="Internet Computer Screenshot" />
+              <StyledImage src={SCREENSHOT_URL} alt="Internet Computer Screenshot" />
               <Typography variant="body1" sx={{ mt: 2 }}>
                 This screenshot showcases the Internet Computer website, demonstrating the capabilities of the IC platform.
               </Typography>
             </>
-          ) : (
-            <Typography color="error">
-              Failed to load the screenshot. Please try again later.
-            </Typography>
           )}
         </CardContent>
       </StyledCard>
