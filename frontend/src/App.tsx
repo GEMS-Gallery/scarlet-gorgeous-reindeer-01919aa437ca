@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton } from '@mui/material';
+import { Box, Drawer, List, ListItem, ListItemText, Grid, Card, CardMedia, CardContent, Typography, IconButton, Link as MuiLink } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import LaunchIcon from '@mui/icons-material/Launch';
 import { Routes, Route, Link, useParams } from 'react-router-dom';
 
 interface Tile {
@@ -8,6 +9,7 @@ interface Tile {
   imageUrl: string;
   description: string;
   category: string;
+  websiteUrl: string;
 }
 
 const tiles: Tile[] = [
@@ -15,31 +17,36 @@ const tiles: Tile[] = [
     id: 1,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdfinity.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "DFINITY Foundation website",
-    category: "Websites"
+    category: "Websites",
+    websiteUrl: "https://dfinity.org/"
   },
   {
     id: 2,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdashboard.internetcomputer.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "Internet Computer Dashboard",
-    category: "Tools"
+    category: "Tools",
+    websiteUrl: "https://dashboard.internetcomputer.org/"
   },
   {
     id: 3,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fforum.dfinity.org%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "DFINITY Forum",
-    category: "Community"
+    category: "Community",
+    websiteUrl: "https://forum.dfinity.org/"
   },
   {
     id: 4,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fidentity.ic0.app%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "Internet Identity",
-    category: "Tools"
+    category: "Tools",
+    websiteUrl: "https://identity.ic0.app/"
   },
   {
     id: 5,
     imageUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fnns.ic0.app%2F&width=800&height=800&full_page=true&fresh=true&output=image&file_type=png&wait_for_event=load",
     description: "NNS App",
-    category: "Tools"
+    category: "Tools",
+    websiteUrl: "https://nns.ic0.app/"
   }
 ];
 
@@ -67,8 +74,22 @@ function TileGrid({ category }: { category: string }) {
               <Typography variant="body2" gutterBottom>
                 {tile.description}
               </Typography>
-              <Box display="flex" justifyContent="flex-end">
-                <IconButton aria-label="github" href="https://github.com/dfinity" target="_blank" rel="noopener noreferrer">
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <MuiLink 
+                  href={tile.websiteUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  sx={{ display: 'flex', alignItems: 'center' }}
+                >
+                  Visit Website
+                  <LaunchIcon fontSize="small" sx={{ ml: 0.5 }} />
+                </MuiLink>
+                <IconButton 
+                  aria-label="github" 
+                  href="https://github.com/dfinity" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
                   <GitHubIcon />
                 </IconButton>
               </Box>
