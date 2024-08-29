@@ -17,7 +17,7 @@ const LazyTileGrid = lazy(() => import('./components/TileGrid'));
 
 interface Tile {
   id: number;
-  jsonUrl: string;
+  imageUrl: string;
   description: string;
   category: string;
   websiteUrl: string;
@@ -27,7 +27,7 @@ interface Tile {
 const tiles: Tile[] = [
   {
     id: 1,
-    jsonUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdfinity.org%2F&output=json&file_type=png&wait_for_event=load",
+    imageUrl: "https://shot.screenshotapi.net/screenshot?token=8337QJ6-QS0M926-G8XVYHY-63WVT1T&url=https%3A%2F%2Fdfinity.org%2F&output=image&file_type=png&wait_for_event=load",
     description: "DFINITY Foundation website",
     category: "Websites",
     websiteUrl: "https://dfinity.org/",
@@ -35,7 +35,7 @@ const tiles: Tile[] = [
   },
   {
     id: 2,
-    jsonUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fdashboard.internetcomputer.org%2F&output=json&file_type=png&wait_for_event=load",
+    imageUrl: "https://shot.screenshotapi.net/screenshot?token=8337QJ6-QS0M926-G8XVYHY-63WVT1T&url=https%3A%2F%2Fdashboard.internetcomputer.org%2F&output=image&file_type=png&wait_for_event=load",
     description: "Internet Computer Dashboard",
     category: "Tools",
     websiteUrl: "https://dashboard.internetcomputer.org/",
@@ -43,14 +43,14 @@ const tiles: Tile[] = [
   },
   {
     id: 3,
-    jsonUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fforum.dfinity.org%2F&output=json&file_type=png&wait_for_event=load",
+    imageUrl: "https://shot.screenshotapi.net/screenshot?token=8337QJ6-QS0M926-G8XVYHY-63WVT1T&url=https%3A%2F%2Fforum.dfinity.org%2F&output=image&file_type=png&wait_for_event=load",
     description: "DFINITY Forum",
     category: "Community",
     websiteUrl: "https://forum.dfinity.org/"
   },
   {
     id: 4,
-    jsonUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fidentity.ic0.app%2F&output=json&file_type=png&wait_for_event=load",
+    imageUrl: "https://shot.screenshotapi.net/screenshot?token=8337QJ6-QS0M926-G8XVYHY-63WVT1T&url=https%3A%2F%2Fidentity.ic0.app%2F&output=image&file_type=png&wait_for_event=load",
     description: "Internet Identity",
     category: "Tools",
     websiteUrl: "https://identity.ic0.app/",
@@ -58,7 +58,7 @@ const tiles: Tile[] = [
   },
   {
     id: 5,
-    jsonUrl: "https://shot.screenshotapi.net/screenshot?token=9B5BMQH-TBT4EQP-NHTEP60-EZ8VFKA&url=https%3A%2F%2Fnns.ic0.app%2F&output=json&file_type=png&wait_for_event=load",
+    imageUrl: "https://shot.screenshotapi.net/screenshot?token=8337QJ6-QS0M926-G8XVYHY-63WVT1T&url=https%3A%2F%2Fnns.ic0.app%2F&output=image&file_type=png&wait_for_event=load",
     description: "NNS App",
     category: "Tools",
     websiteUrl: "https://nns.ic0.app/",
