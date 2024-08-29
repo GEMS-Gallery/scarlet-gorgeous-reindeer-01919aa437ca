@@ -6,7 +6,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 
 interface Tile {
   id: number;
-  imageUrl: string;
+  jsonUrl: string;
   description: string;
   category: string;
   websiteUrl: string;
@@ -28,6 +28,7 @@ interface TileGridProps {
 
 const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
+  const [imageUrls, setImageUrls] = useState<{ [key: number]: string }>({});
   const [comments, setComments] = useState<{ [key: number]: Comment[] }>({});
   const [openCommentModal, setOpenCommentModal] = useState<number | null>(null);
   const [newComment, setNewComment] = useState('');
@@ -35,7 +36,26 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
 
   useEffect(() => {
     setLoadedImages([]);
+    setImageUrls({});
   }, [category]);
+
+  const fetchImageUrl = async (tile: Tile) => {
+    try {
+      const response = await fetch(tile.jsonUrl);
+      const data = await response.json();
+      setImageUrls(prev => ({ ...prev, [tile.id]: data.screenshot }));
+    } catch (error) {
+      console.error('Error fetching image URL:', error);
+    }
+  };
+
+  useEffect(() => {
+    filteredTiles.forEach(tile => {
+      if (!imageUrls[tile.id]) {
+        fetchImageUrl(tile);
+      }
+    });
+  }, [filteredTiles, imageUrls]);
 
   const handleImageLoad = (id: number) => {
     setLoadedImages(prev => [...prev, id]);
@@ -104,7 +124,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
         <Grid item xs={12} sm={6} md={4} lg={3} key={tile.id}>
           <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: 300 }}>
             <Box sx={{ position: 'relative', paddingTop: '56.25%', overflow: 'hidden' }}>
-              {!loadedImages.includes(tile.id) && (
+              {(!imageUrls[tile.id] || !loadedImages.includes(tile.id)) && (
                 <Box
                   sx={{
                     position: 'absolute',
@@ -121,22 +141,24 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
                   <CircularProgress />
                 </Box>
               )}
-              <CardMedia
-                component="img"
-                image={tile.imageUrl}
-                alt={tile.description}
-                sx={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'top',
-                  display: loadedImages.includes(tile.id) ? 'block' : 'none',
-                }}
-                onLoad={() => handleImageLoad(tile.id)}
-              />
+              {imageUrls[tile.id] && (
+                <CardMedia
+                  component="img"
+                  image={imageUrls[tile.id]}
+                  alt={tile.description}
+                  sx={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'top',
+                    display: loadedImages.includes(tile.id) ? 'block' : 'none',
+                  }}
+                  onLoad={() => handleImageLoad(tile.id)}
+                />
+              )}
             </Box>
             <CardContent sx={{ flexGrow: 1, p: 2 }}>
               <Typography variant="subtitle1" gutterBottom noWrap>
@@ -228,7 +250,7 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
         >
           <ListItemAvatar>
             <Box sx={{ position: 'relative', width: 80, height: 80 }}>
-              {!loadedImages.includes(tile.id) && (
+              {(!imageUrls[tile.id] || !loadedImages.includes(tile.id)) && (
                 <Box
                   sx={{
                     position: 'absolute',
@@ -245,19 +267,21 @@ const TileGrid: React.FC<TileGridProps> = ({ category, tiles, viewType }) => {
                   <CircularProgress size={24} />
                 </Box>
               )}
-              <Avatar
-                variant="rounded"
-                src={tile.imageUrl}
-                alt={tile.description}
-                sx={{
-                  width: 80,
-                  height: 80,
-                  display: loadedImages.includes(tile.id) ? 'block' : 'none',
-                }}
-                imgProps={{
-                  onLoad: () => handleImageLoad(tile.id),
-                }}
-              />
+              {imageUrls[tile.id] && (
+                <Avatar
+                  variant="rounded"
+                  src={imageUrls[tile.id]}
+                  alt={tile.description}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    display: loadedImages.includes(tile.id) ? 'block' : 'none',
+                  }}
+                  imgProps={{
+                    onLoad: () => handleImageLoad(tile.id),
+                  }}
+                />
+              )}
             </Box>
           </ListItemAvatar>
           <ListItemText
